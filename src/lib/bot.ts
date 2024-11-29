@@ -57,12 +57,24 @@ export default class Bot {
       : this.defaultOptions;
     const bot = new Bot(service);
     await bot.login(bskyAccount);
-    const text = (await getPostText()).trim();
-    if (!dryRun) {
-      await bot.post(text);
-    } else {
-      console.log(text);
+    const texts = (await getPostText()).trim();
+    const rt = new RichText(
+      {
+        text: texts + ' Source: On This Day https://www.onthisday.com/today/canadian-history.php'
+      }
+    );
+    await rt.detectFacets(bot.#agent);
+    const postRecord = {
+      $type: 'app.bsky.feed.post',
+      text: rt.text,
+      facets: rt.facets,
+      createdAt: new Date().toISOString()
     }
-    return text;
+    if (!dryRun) {
+      await bot.#agent.post(postRecord);
+    } else {
+      console.log(texts);
+    }
+    return texts;
   }
 }

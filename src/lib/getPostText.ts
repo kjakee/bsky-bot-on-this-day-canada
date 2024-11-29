@@ -5,13 +5,13 @@ const openai = new OpenAI();
 
 export default async function getPostText() {
   
-    const response = await axios.get('https://www.drivebc.ca/api/weather/observations/25221');
+    const response = await axios.get('https://www.onthisday.com/today/canadian-history.php');
     const users = response.data;
 
 
  const stream = await openai.chat.completions.create({
   model: "gpt-4o",
-  messages: [{ role: "user", content: "write a tweet from " + response.data + " and remove text DriveBC Alert. Include only hashtags #Coquihalla #CoquihallaWeather #CoquihallaSummit #CoquihallaRoadCondition #DriveCoquihalla"}],
+  messages: [{ role: "user", content: "write a tweet with maximum two bullet points from " + response.data + " within 250 characters. Include only hashtags #History #Canada #OnThisDay #CanadaHistory"}],
   stream: true,
 });
 var tweetString = '';
