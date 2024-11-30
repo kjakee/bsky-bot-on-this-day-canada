@@ -60,7 +60,7 @@ export default class Bot {
     const texts = (await getPostText()).trim();
     const rt = new RichText(
       {
-        text: texts + ' Source: On This Day https://www.onthisday.com/today/canadian-history.php'
+        text: texts
       }
     );
     await rt.detectFacets(bot.#agent);
